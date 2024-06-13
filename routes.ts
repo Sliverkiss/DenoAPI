@@ -10,7 +10,7 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
   for await (const entry of fs.walk(dir, { includeDirs: false, followSymlinks: false })) {
     if (entry.isFile && entry.path.endsWith(".ts")) {
       const relativePath = path.relative(Deno.cwd(), entry.path);
-      const modulePath = `file://${path.resolve(Deno.cwd(), relativePath)}`;
+      const modulePath = `./${relativePath}`;
       const { default: fileMethods } = await import(modulePath);
       const routePath = `${basePath}${path.relative(dir, entry.path).replace(".ts", "").replace(/\\/g, "/")}`;
       console.log(routePath);

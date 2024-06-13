@@ -1,5 +1,5 @@
 // routes/index.ts
-import { join, relative, walk } from "file:///src/deps.ts";
+import { join, relative,walk } from "file:///src/deps.ts";
 
 interface RouteConfig {
     [key: string]: (req: Request) => Response | Promise<Response>;
@@ -21,7 +21,7 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
 }
 
 export async function routeApi(api: string, req: Request): Promise<Response> {
-    const routes = await collectRoutes(join("file:///src", "service"));
+    const routes = await collectRoutes(join(Deno.cwd(), "service"));
     if (api in routes) {
         return routes[api](req);
     } else {

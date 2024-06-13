@@ -1,5 +1,6 @@
 // routes/index.ts
-import { join, relative,walk } from "file:///src/deps.ts";
+
+import { fs, path } from "../deps.ts";
 
 interface RouteConfig {
     [key: string]: (req: Request) => Response | Promise<Response>;
@@ -7,13 +8,14 @@ interface RouteConfig {
 
 async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteConfig> {
     const routes: RouteConfig = {};
-    for await (const entry of walk(dir, { includeDirs: true })) {
+    const absoluteDir = path.join("file:///src", dir); // 替换为你的项目路径
+    for await (const entry of fs.walk(absoluteDir, { includeDirs: true })) {
         if (entry.isFile && entry.path.endsWith(".ts")) {
-            const { default: fileMethods } = await import(entry.path);
-            const routePath = `${basePath}${relative(dir, entry.path).replace(".ts", "").replace(/\\/g, "/")}`;
+            const { default: fileMethods } = await import("file://" + entry.path);
+            const routePath = `${basePath}${path.relative(absoluteDir, entry.path).replace(".ts", "").replace(/\\/g, "/")}`;
             routes[routePath] = fileMethods.default; // 假设所有模块都有一个默认导出
         } else if (entry.isDirectory) {
-            const subRoutes = await collectRoutes(entry.path, `${basePath}${entry.name}/`);
+            const subRoutes = await collectRoutes(path.relative(absoluteDir, entry.path), `${basePath}${entry.name}/`);
             Object.assign(routes, subRoutes);
         }
     }
@@ -21,7 +23,7 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
 }
 
 export async function routeApi(api: string, req: Request): Promise<Response> {
-    const routes = await collectRoutes(join("file:///src", "service"));
+    const routes = await collectRoutes("/service");
     if (api in routes) {
         return routes[api](req);
     } else {

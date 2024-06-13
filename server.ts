@@ -1,16 +1,7 @@
-// server.ts
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import { Application } from "oak";
+import router from "./routes/index.ts";
 
 const app = new Application();
-const router = new Router();
-
-router.get("/ping", (context) => {
-  context.response.body = "pong";
-});
-
-router.get("/hello", (context) => {
-  context.response.body = "hello world";
-});
 
 app.use(router.routes());
 app.use(router.allowedMethods());

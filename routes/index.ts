@@ -1,5 +1,5 @@
-import { Router } from "../deps.ts";
-import pingRouter from "./ping.ts";
+import { Router } from "file:///src/deps.ts";
+import pingRouter from "file:///src/routes/ping.ts";
 
 const router = new Router();
 

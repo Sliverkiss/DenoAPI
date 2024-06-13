@@ -8,6 +8,10 @@ router.get("/ping", (context) => {
   context.response.body = "pong";
 });
 
+router.get("/hello", (context) => {
+  context.response.body = "hello world";
+});
+
 app.use(router.routes());
 app.use(router.allowedMethods());
 

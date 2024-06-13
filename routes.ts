@@ -24,7 +24,7 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
 }
 
 export async function routeApi(api: string, req: Request): Promise<Response> {
-  const routes = await collectRoutes(path.join(Deno.cwd(), "src/service"));
+  const routes = await collectRoutes(path.join(Deno.cwd(), "service"));
   if (api in routes) {
     return routes[api](req);
   } else {

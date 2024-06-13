@@ -1,9 +1,9 @@
-import { Router } from "https://deno.land/x/oak@v10.5.1/mod.ts";
+import { Router } from "../deps.ts";
 
 const router = new Router();
 
 router.get("/ping", (context) => {
-  context.response.body = "pong";
+  context.response.body = import.meta.url;
 });
 
 export default router;

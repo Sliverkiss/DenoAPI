@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "telegraf": "https://deno.land/x/telegraf@v1.7.0/mod.ts",
-    "oak": "https://deno.land/x/oak@v10.5.1/mod.ts"
-  }
-}

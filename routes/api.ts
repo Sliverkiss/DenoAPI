@@ -19,5 +19,3 @@ export function routeApi(api: string, req: Request): Response | Promise<Response
         })
     }
 }
-
-export { pingRouter };

@@ -1,5 +1,5 @@
-import { Request, Response } from "file://src/deps.ts";
-import pingRouter from "file://src/routes/ping.ts";
+import { Request, Response } from "file:///src/deps.ts";
+import pingRouter from "file:///src/routes/ping.ts";
 
 const config: Record<string, (req: Request) => Response | Promise<Response>> = {
     '/ping': pingRouter.ping,

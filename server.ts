@@ -1,4 +1,4 @@
-import oak from "file:///src/deps.ts";
+import {oak} from "file:///src/deps.ts";
 import * as router from "file:///src/routes/index.ts";
 
 const app = new oak.Application();

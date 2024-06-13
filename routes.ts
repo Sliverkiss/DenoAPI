@@ -13,6 +13,7 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
       const modulePath = `./${relativePath}`;
       const { default: fileMethods } = await import(modulePath);
       const routePath = `${basePath}${path.relative(dir, entry.path).replace(".ts", "").replace(/\\/g, "/")}`;
+      console.log(routePath);
       routes[routePath] = fileMethods.default; // 假设所有模块都有一个默认导出
     }
   }

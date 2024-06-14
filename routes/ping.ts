@@ -1,5 +1,7 @@
-import { Context } from "file:///src/deps.ts";
+import { Context, Response } from "file:///src/deps.ts";
 
-export function ping(ctx: Context) {
-    return import.meta.url;
+export async function ping(ctx: Context): Promise<Response> {
+  return new Response(import.meta.url, {
+    status: 200,
+  });
 }

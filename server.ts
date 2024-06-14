@@ -4,7 +4,7 @@ import * as router from "file:///src/routes/api.ts";
 const app = new Application();
 
 app.use(async (ctx) => {
-   ctx.response.body=await router.routeApi(ctx.request.url.pathname, ctx.request);
+  ctx.response = await router.routeApi(ctx.request.url.pathname, ctx.request);
 });
 
 console.log("Server is running on http://localhost:8000");

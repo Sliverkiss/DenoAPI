@@ -1,7 +1,7 @@
-import { oak } from "file:///src/deps.ts";
+import { Application } from "file:///src/deps.ts";
 import * as router from "file:///src/routes/api.ts";
 
-const app = new oak.Application();
+const app = new Application();
 
 app.use(async (ctx) => {
    await router.routeApi(ctx.request.url.pathname, ctx.request);

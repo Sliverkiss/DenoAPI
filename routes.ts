@@ -10,11 +10,11 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
   for await (const entry of fs.walk(dir, { includeDirs: false, followSymlinks: false })) {
     if (entry.isFile && entry.path.endsWith(".ts")) {
       const modulePath = path.toFileUrl(entry.path).href; // 使用 toFileUrl 确保正确的文件URL
-      console.log(modulePath);
+      console.log("fmodulePath:"+modulePath);
       const { default: fileMethods } = await import(modulePath);
-      console.log("fileMethods"+fileMethods);
+      console.log("fileMethods:"+fileMethods);
       const routePath = `${basePath}${path.relative(dir, entry.path).replace(".ts", "").replace(/\\/g, "/")}`;
-      console.log("routePath"+routePath)
+      console.log("routePath:"+routePath)
       routes[routePath] = fileMethods; // 假设所有模块都有一个默认导出
     } else if (entry.isDirectory) {
       const subRoutes = await collectRoutes(entry.path, `${basePath}${entry.name}/`);
@@ -25,8 +25,8 @@ async function collectRoutes(dir: string, basePath: string = ""): Promise<RouteC
 }
 
 export async function routeApi(api: string, req: Request): Promise<Response> {
-  const routes = await collectRoutes("./service");
-  console.log("api"+api);
+  const routes = await collectRoutes(path.join(Deno.cwd(), "service"));
+  console.log("api:"+api);
   if (api in routes) {
     return routes[api](req);
   } else {

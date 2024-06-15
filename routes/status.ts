@@ -21,14 +21,14 @@ export async function status(req: Request): Promise<Response> {
     }
     const data = await http.get(`https://dash.deno.com/_api/v1/organizations/${userId}/analytics`, headers);
 
-    let [, ..._values] = data.values;
+    let _values = data.values;
+    _values = _values.map(e => { e.shift(); return e });
+
     _values = sumNumbersInArrayByIndex(_values);
     let _keys = data.fields.filter(e => e.name != 'time').map(e => e.name);
-    let result = {};
-    for (let i = 0; i++; i < _keys.length - 1) {
-        result[_keys[i]] = _values[i];
-    }
-    return result;
+
+    let obj = arraysToObjects(_keys, _values);
+    return obj;
 }
 
 function sumNumbersInArrayByIndex(arr) {
@@ -40,4 +40,15 @@ function sumNumbersInArrayByIndex(arr) {
         });
         return acc;
     }, []);
+}
+function arraysToObjects(keys, values) {
+    if (keys.length !== values.length) {
+        throw new Error("数组长度不一致");
+    }
+
+    let result = {};
+    for (let i = 0; i < keys.length; i++) {
+        result[keys[i]] = values[i];
+    }
+    return result;
 }

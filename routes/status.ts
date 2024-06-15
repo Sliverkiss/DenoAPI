@@ -19,16 +19,16 @@ export async function status(req: Request): Promise<Response> {
         'Accept-Language': `zh-CN,zh-Hans;q=0.9`,
         'Accept': `application/json`
     }
-    const data = await http.get(`https://dash.deno.com/_api/v1/organizations/${userId}/analytics`,headers);
+    const data = await http.get(`https://dash.deno.com/_api/v1/organizations/${userId}/analytics`, headers);
 
-    // let [, ..._values] = data.values;
-    // _values = sumNumbersInArrayByIndex(_values);
-    // let _keys = data.fields.filter(e => e.name != 'time').map(e => e.name);
-    // let result = {};
-    // for (let i = 0; i++; i < _keys.length - 1) {
-    //     result[_keys[i]] = _values[i];
-    // }
-    return data;
+    let [, ..._values] = data.values;
+    _values = sumNumbersInArrayByIndex(_values);
+    let _keys = data.fields.filter(e => e.name != 'time').map(e => e.name);
+    let result = {};
+    for (let i = 0; i++; i < _keys.length - 1) {
+        result[_keys[i]] = _values[i];
+    }
+    return result;
 }
 
 function sumNumbersInArrayByIndex(arr) {

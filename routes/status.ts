@@ -1,8 +1,8 @@
-import { Context, Response } from "file:///src/deps.ts";
+import { Request, Response } from "file:///src/deps.ts";
 import { http } from "file:///src/utils/request.ts";
 
-export async function status(ctx: Context): Promise<Response> {
-    const params = ctx.request.url.searchParams;
+export async function status(req: Request): Promise<Response> {
+    const params = req.url.searchParams;
     const userId = params.get("userId");
     const data = await http.get(`https://dash.deno.com/_api/v1/organizations/${userId}/analytics`);
     let [, ..._values] = data.values;
